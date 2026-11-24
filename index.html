@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Herramientas que faltan</title>
+<style>
+  :root{
+    --bg:#ffffff; --bg-soft:#f2f4f3; --ink:#17201e; --ink-soft:#46534f; --line:#d8dedb;
+    --accent:#0f766e; --accent-ink:#ffffff; --warn:#b45309; --warn-bg:#fdf3e3; --warn-line:#e8c88a;
+    --good:#0f766e; --good-bg:#e6f4f1; --bad:#b3372f; --bad-bg:#fbeae8;
+    --card:#ffffff; --chip:#eef1f0;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#121615; --bg-soft:#1a201f; --ink:#e9edec; --ink-soft:#a7b3af; --line:#2c3533;
+      --accent:#2dd4bf; --accent-ink:#0b1514; --warn:#f0b35e; --warn-bg:#2b2113; --warn-line:#6b5326;
+      --good:#2dd4bf; --good-bg:#12302b; --bad:#f08a80; --bad-bg:#331a17;
+      --card:#171c1b; --chip:#222a28;
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px 64px}
+  h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:700;line-height:1.15;margin:0}
+  a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;overflow-wrap:anywhere}
+  button{min-height:44px}
+
+  header{padding:36px 0 8px}
+  .date-line{font-size:14px;letter-spacing:.02em;color:var(--ink-soft);margin:0 0 10px}
+  h1{font-size:clamp(32px,6vw,46px);letter-spacing:-.01em}
+  .lede{font-size:19px;color:var(--ink-soft);max-width:640px;margin:14px 0 0}
+  .lede strong{color:var(--ink)}
+
+  .honest{margin:26px 0 0;background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:16px 18px}
+  .honest h2{font-size:17px;font-family:inherit;margin-bottom:6px}
+  .honest p{margin:0;font-size:15.5px}
+  .honest p + p{margin-top:8px}
+
+  .top3{margin:30px 0 0}
+  .top3 h2{font-size:24px;margin-bottom:6px}
+  .top3 p.sub{color:var(--ink-soft);margin:0 0 14px;font-size:15.5px}
+  .top3 ol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  @media(min-width:680px){ .top3 ol{grid-template-columns:repeat(3,1fr)} }
+  .top3 li{background:var(--good-bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .top3 .n{font-family:Georgia,serif;font-size:26px;color:var(--accent);display:block;line-height:1}
+  .top3 .t{font-weight:700;display:block;margin:6px 0 4px;font-size:16px}
+  .top3 .d{font-size:14.5px;color:var(--ink-soft);display:block}
+
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin:36px 0 4px}
+  .filters button{appearance:none;border:1px solid var(--line);background:var(--chip);color:var(--ink);
+    border-radius:999px;padding:10px 16px;font-size:15px;font-weight:600;cursor:pointer;min-height:44px}
+  .filters button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .filters button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .count-line{color:var(--ink-soft);font-size:14.5px;margin:10px 0 18px}
+
+  article.idea{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin:0 0 16px}
+  article.idea .rank-row{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .rank{font-family:Georgia,serif;font-size:30px;color:var(--accent);line-height:1}
+  article.idea h3{font-size:21px;flex:1;min-width:200px}
+  .badges{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0}
+  .badge{font-size:13px;font-weight:700;padding:5px 10px;border-radius:999px;background:var(--chip);color:var(--ink-soft)}
+  .badge.build{background:var(--good-bg);color:var(--good)}
+  .badge.alert{background:var(--bad-bg);color:var(--bad)}
+  blockquote{margin:14px 0;padding:2px 0 2px 16px;border-left:3px solid var(--accent);
+    font-family:Georgia,serif;font-size:17.5px;font-style:italic}
+  blockquote + .plain-need{margin-top:-4px}
+  .plain-need{font-size:16.5px;margin:12px 0 0}
+  dl{margin:14px 0 0;display:grid;gap:12px}
+  dt{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:2px}
+  dd{margin:0;font-size:15.5px}
+  .src{font-size:14.5px;color:var(--ink-soft)}
+  .inferred{font-weight:700}
+
+  section.plain{margin-top:44px}
+  section.plain h2{font-size:24px;margin-bottom:8px}
+  section.plain p, section.plain li{font-size:16px}
+  section.plain ul{padding-left:20px;margin:10px 0}
+  section.plain li{margin-bottom:10px}
+  .sources{font-size:14.5px}
+  .sources li{margin-bottom:6px}
+  footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:14px}
+  .hidden{display:none !important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="date-line">Investigación web · lunes 23 de noviembre de 2026 (verificada el 24 de noviembre, 01:15 UTC)</p>
+  <h1>Herramientas que faltan</h1>
+  <p class="lede">Esto es lo que personas y agentes de IA estuvieron buscando y <strong>no encontraron</strong>: herramientas, software y apps que todavía no existen o que existen a medias. Las 8 ideas están rankeadas pensando en un equipo chico de dos personas, con stack web/Python, sin capital y sin ventas empresariales.</p>
+</header>
+
+<div class="honest" role="note">
+  <h2>Lo honesto primero</h2>
+  <p>No aparecieron 6–8 pedidos nuevos y con evidencia fuerte publicados solo el 23 de noviembre. Reddit estaba bloqueado para la investigación (tanto en el navegador como en el buscador) y la búsqueda en X/Twitter casi no devolvió nada usable. Lo que sí está fechado entre el 21 y el 23 de noviembre es: un resumen de fin de semana de construcción con pedidos reales de Reddit, los listados de demanda de ProductList Daily del 22 y 23, un escaneo de preparación para agentes del 22, y un análisis de Hacker News del 17 de noviembre sobre 4.400 publicaciones (del 19 de agosto al 17 de noviembre).</p>
+  <p>Por eso esta lista es de pedidos <strong>recién publicados o vueltos a publicar, con fecha clara</strong> — no pedidos inventados «de hoy». Y ojo: dos ideas del final (la despensa y la bóveda del inquilino) <strong>ya fueron construidas</strong> desde que se pidieron; van últimas y con el aviso, no escondidas.</p>
+</div>
+
+<section class="top3" aria-labelledby="top3h">
+  <h2 id="top3h">Las 3 mejores apuestas</h2>
+  <p class="sub">Para un equipo de dos, sin capital, según la investigación:</p>
+  <ol>
+    <li><span class="n">1</span><span class="t">Editor visual de permisos para agentes de IA</span><span class="d">Empatada en el conteo más alto de pedidos (11 personas en Hacker News) y con el hueco confirmado: hoy todo es JSON y línea de comandos.</span></li>
+    <li><span class="n">2</span><span class="t">Turnos desordenados → calendario</span><span class="d">Apareció dos días seguidos (22 y 23 de noviembre) y es un chore que se repite cada ciclo de turnos.</span></li>
+    <li><span class="n">3</span><span class="t">Planificador de plata para freelancers</span><span class="d">Construcción fácil: una sola página, datos locales, sin conectar el banco.</span></li>
+  </ol>
+</section>
+
+<div class="filters" role="group" aria-label="Filtrar ideas">
+  <button type="button" data-filter="all" aria-pressed="true">Las 8 ideas</button>
+  <button type="button" data-filter="bet" aria-pressed="false">Mejores apuestas (1–3)</button>
+  <button type="button" data-filter="gap" aria-pressed="false">Hueco limpio (4–6)</button>
+  <button type="button" data-filter="built" aria-pressed="false">Ya construidas (7–8)</button>
+</div>
+<p class="count-line" id="countLine">Mostrando las 8 ideas.</p>
+
+<main id="ideas">
+
+<article class="idea" data-group="bet">
+  <div class="rank-row"><span class="rank">1</span><h3>Editor visual de permisos para agentes de IA que programan</h3></div>
+  <div class="badges"><span class="badge build">Construcción: media</span><span class="badge">11 personas lo pidieron</span></div>
+  <blockquote>«En el momento en que haya una interfaz visual desde la cual configurar fácil “estos archivos se pueden leer, estos se pueden modificar” antes de correr la tarea, estoy totalmente de acuerdo.»</blockquote>
+  <p class="plain-need">La idea: límites duros y visuales sobre qué puede tocar un agente de código — qué archivos lee o modifica, qué comandos de terminal necesitan aprobación y dónde debe frenar y esperar.</p>
+  <dl>
+    <div><dt>Evidencia</dt><dd>11 personas distintas lo pidieron en Hacker News: el conteo más alto del análisis (empatado con las herramientas para usuarios avanzados de HN). En esa metodología, quien decía «pagaría» contaba doble. Corroboración del 22 de noviembre: vanja.io («Zero Trust for AI Agents») señala que los usuarios de Claude Code aprueban entre el 93% y el 97% de los avisos; aidtoolstack y Nirmata (30 de octubre de 2026) confirman que el sandbox viene apagado por defecto, que la lectura de archivos queda abierta y que solo se aísla Bash.</dd></div>
+    <div><dt>Qué existe y por qué no alcanza</dt><dd>Claude Code, Codex y Gemini CLI tienen modos de permisos y reglas, pero se configuran en JSON o por terminal. <em>agentperm</em> (PyPI 0.3.0) unifica la política para Claude Code, Codex, OpenCode, Gemini y Kiro, pero también es de terminal/editor. El generador de Anaroq solo crea el archivo: no aplica nada en vivo ni tiene cola de aprobaciones. No se encontró ningún editor visual de políticas, independiente del agente, con cola de aprobación.</dd></div>
+    <div><dt>Cómo se construiría</dt><dd>Una app web (Python/FastAPI + frontend simple): marcar archivos, carpetas y comandos en permitir / preguntar / denegar, exportar la política al formato de cada agente (empezando por Claude Code y el JSONC de agentperm) y mostrar el registro de acciones bloqueadas o preguntadas. Lo difícil es interpretar bien los comandos compuestos de terminal — agentperm ya lo hace, mejor integrarlo que rehacerlo.</dd></div>
+    <div><dt>Quién pagaría</dt><dd>Desarrolladores y equipos chicos que usan Claude Code o Codex, por suscripción. Una suscripción de US$5–10/mes es plausible por analogía con otras herramientas de desarrollo, pero <span class="inferred">no se encontró ninguna cita de precio directa para esta herramienta</span>: no tomes ese número como evidencia.</dd></div>
+    <div><dt>Fuente</dt><dd class="src">DEV.to, hnidearadar, «I had AI read 4,400 Hacker News posts. These are the 10 tools people most want built» — datos del 19 de agosto al 17 de noviembre de 2026; artículo actualizado ~7 días antes del 23 de noviembre. <a href="https://dev.to/hnidearadar/i-had-ai-read-4400-hacker-news-posts-these-are-the-10-tools-people-most-want-built-15h4">dev.to/hnidearadar</a> · Corroboración: <a href="https://vanja.io/zero-trust-ai-agents/">vanja.io</a>, <a href="https://aidtoolstack.com/blog/running-ai-coding-agents-safely">aidtoolstack.com</a>, <a href="https://nirmata.com/2026/10/30/ai-coding-agent-security-risks-and-controls/">nirmata.com</a>, <a href="https://pypi.org/project/agentperm/0.3.0/">agentperm en PyPI</a>, <a href="https://www.anaroq.com/agents/permissions-generator">anaroq.com</a></dd></div>
+  </dl>
+</article>
+
+<article class="idea" data-group="bet">
+  <div class="rank-row"><span class="rank">2</span><h3>Del roster de turnos desordenado a tu calendario, automático</h3></div>
+  <div class="badges"><span class="badge build">Construcción: fácil–media</span><span class="badge">Apareció el 22 y el 23 de noviembre</span></div>
+  <blockquote>«Una app que lee el roster de trabajo y carga tus turnos en el calendario automáticamente» / «una app que lee una planilla compartida de Google e importa los turnos personales a un calendario».</blockquote>
+  <dl>
+    <div><dt>Evidencia</dt><dd>El mismo pedido concreto apareció dos días seguidos en el feed de ProductList Daily: el 23 de noviembre (r/answers, «¿Qué app cotidiana desearías que existiera o funcionara mejor?») y el 22 de noviembre («Deseos de apps cotidianas: sincronizar turnos desde una planilla compartida»). Además es un trabajo que se repite cada ciclo de turnos, no un deseo de una sola vez. <strong>Pregunta abierta:</strong> la fecha y los votos del hilo original de Reddit no se pudieron verificar, porque Reddit estaba bloqueado.</dd></div>
+    <div><dt>Qué existe y por qué no alcanza</dt><dd>La sincronización limpia planilla → calendario ya existe: Cellendar (US$7,99/mes o US$59/año, sincronización en dos vías, turnos nocturnos), el complemento Calendar Autopilot y scripts gratuitos de Google Apps Script. Lo que ninguno hace es leer un roster <em>desordenado</em>: una foto o PDF del roster, códigos de turno («E», «N», «07–15») o una planilla cuyas columnas cambian. Ese hueco de interpretación es la diferencia construible; clonar solo la sincronización limpia sería más de lo mismo.</dd></div>
+    <div><dt>Cómo se construiría</dt><dd>Una página web + API de Google Calendar (OAuth): subir la foto/PDF del roster o conectar la planilla, leer fechas y códigos con OCR y una tablita de equivalencias que el usuario corrige una sola vez, y crear/actualizar/borrar eventos guardando sus IDs para no duplicar. Lo difícil es interpretar formatos variados con tolerancia, no escribir en el calendario.</dd></div>
+    <div><dt>Quién pagaría</dt><dd>Trabajadores por turnos (comercio, gastronomía, salud, depósitos) y sus encargados. Una suscripción de US$3–5/mes o una compra única es plausible, pero es <span class="inferred">inferencia a partir del uso semanal: no se encontró ninguna cita de pago en la fuente</span>.</dd></div>
+    <div><dt>Fuente</dt><dd class="src">ProductList Daily, «What People Want — Reddit Demand», listados del 22 y 23 de noviembre de 2026. <a href="https://productlist.info/requests">productlist.info/requests</a> · Competidor: <a href="https://greatwork.company/apps/cellendar">Cellendar</a></dd></div>
+  </dl>
+</article>
+
+<article class="idea" data-group="bet">
+  <div class="rank-row"><span class="rank">3</span><h3>Planificador mensual para freelancers con ingresos irregulares</h3></div>
+  <div class="badges"><span class="badge build">Construcción: fácil</span><span class="badge">Destacada el 21–22 de noviembre</span></div>
+  <p class="plain-need">El problema: con cobros irregulares, un freelancer no sabe cuánto necesita de verdad, y salta entre apps separadas para presupuesto, proyectos e impuestos. La idea junta en un solo lugar los proyectos y cobros esperados, los gastos fijos y un apartado sugerido para impuestos — aclarando que es una ayuda de planificación, no asesoría impositiva.</p>
+  <dl>
+    <div><dt>Evidencia</dt><dd>Idea destacada en el fin de semana de construcción del 21–22 de noviembre de 2026 de Somebody Build This (idea #0015, @web-curator). El pedido original es del 17 de octubre de 2026, de un freelancer en r/SomebodyMakeThis; en el tablero figura «1 persona quiere esto» y «nadie lo está construyendo todavía». Como contexto (no prueba fresca): el análisis de 9.300 publicaciones de Reddit ubica a las finanzas como el nicho con más señales de pago (193), pero ese dataset es de enero de 2026, republicado en noviembre.</dd></div>
+    <div><dt>Qué existe y por qué no alcanza</dt><dd>YNAB (US$109/año): presupuesta solo la plata que ya tienes — sirve para ingresos irregulares, pero es caro, complejo y no tiene pipeline de proyectos ni estimación de impuestos. Monarch US$99,99/año; QuickBooks Solopreneur US$15–20/mes (contabilidad e impuestos, no un plan hogareño simple); Monthly, gratis, sin conexión bancaria; y calculadoras de una página (STL Irregular Income Budget, LetsSave) que calculan un retiro/colchón pero no siguen proyectos y gastos mes a mes. El hueco: una página simple, local y sin conexión al banco que junte pipeline + gastos + apartado de impuestos.</dd></div>
+    <div><dt>Cómo se construiría</dt><dd>Una sola app web con los datos en el dispositivo (localStorage / SQLite local): vista mensual con ingreso esperado, gastos, lo que queda, meses de alerta, porcentaje de impuestos que elige el usuario, «seguro para gastar» suavizado y exportación a planilla. Sin integración bancaria ni motor de consejos. Debe llevar visible la etiqueta «ayuda de planificación, no asesoría impositiva ni financiera» — la propia página de la idea lo exige — y el producto nunca debe elegir el porcentaje de impuestos por el usuario.</dd></div>
+    <div><dt>Quién pagaría</dt><dd>Freelancers y trabajadores independientes con ingresos en picos. Una suscripción de ~US$5/mes o US$49 de por vida es plausible dado que YNAB cuesta US$109/año, pero es <span class="inferred">inferido: no hay cita de pago directa en la fuente</span>.</dd></div>
+    <div><dt>Fuente</dt><dd class="src">Somebody Build This, fin de semana 21–22 de noviembre de 2026 e idea #0015 (17 de octubre de 2026). <a href="https://somebodybuildthis.dev/build-weekend/2026-w47">somebodybuildthis.dev/build-weekend/2026-w47</a> · <a href="https://somebodybuildthis.dev/ideas/15-a-monthly-money-planner-for-freelancers-with-uneven-income-t">Idea #0015</a> · Comparaciones: <a href="https://www.fintechessential.com/money-apps/budgeting/best-budgeting-app-freelancers">fintechessential.com</a>, <a href="https://monthly.com.ar/en/blog/best-apps-freelancers-manage-variable-income/">monthly.com.ar</a>, <a href="https://www.stlfinancetools.com/tools/irregular-income-budget">stlfinancetools.com</a></dd></div>
+  </dl>
+</article>
+
+<article class="idea" data-group="gap">
+  <div class="rank-row"><span class="rank">4</span><h3>De las actas del concejo a una línea de tiempo de un tema local</h3></div>
+  <div class="badges"><span class="badge build">Construcción: fácil</span><span class="badge">El hueco más limpio, el pagador más débil</span></div>
+  <p class="plain-need">Seguir un tema local — por ejemplo, la reparación de una vereda prometida — a través de meses de reuniones es tedioso. La idea: elegir pasajes de las actas, guardar fecha y enlace de origen, agruparlos por tema y mostrar actualizaciones, correcciones y resultados en una línea de tiempo imprimible, para una biblioteca o una carpeta comunitaria.</p>
+  <dl>
+    <div><dt>Evidencia</dt><dd>Idea destacada el 21–22 de noviembre de 2026 en Somebody Build This (idea #0016, @web-curator); pedido original del 17 de octubre de 2026, de un vecino con interés cívico en r/SomebodyMakeThis, «nadie lo está construyendo todavía». La demanda directa es débil — un solo solicitante, sin conteo de «lo quiero» — : esta idea rankea por lo limpio del hueco, no por volumen.</dd></div>
+    <div><dt>Qué existe y por qué no alcanza</dt><dd>Existen herramientas a escala ciudad o para gobiernos, ninguna es la herramienta personal simple que se pidió: OpenCityRecord MCP (15 herramientas, incluye línea de tiempo por tema, probado el 23 de noviembre de 2026; la cuenta gratuita cubre una ciudad), CouncilHound (octubre de 2026, pipeline para Fairfax, Virginia), CivicMeeting de CivicTally (transcripciones buscables para municipios) y un servicio coreano con líneas de tiempo por tema (revisado el 21 de noviembre de 2026). Ninguna es una página gratuita donde un vecino pega pasajes, fechas y enlaces e imprime su línea de tiempo.</dd></div>
+    <div><dt>Cómo se construiría</dt><dd>App web con datos en el dispositivo: crear un tema, agregar entradas (pasaje pegado + fecha de reunión + enlace, etiquetadas como actualización, corrección o resultado), línea de tiempo de lo más viejo a lo más nuevo, exportación imprimible y buscar/exportar/importar. Sin raspado web ni IA en la primera versión.</dd></div>
+    <div><dt>Quién pagaría</dt><dd>Débil: vecinos, bibliotecas locales, grupos comunitarios y periodistas locales. Lo probable es gratis + donaciones o un pago único chico; <span class="inferred">no hay señal de pago en la fuente</span>. Va cuarta solo porque el hueco es genuino y es trivial de construir; no esperes ingresos por suscripción.</dd></div>
+    <div><dt>Fuente</dt><dd class="src">Somebody Build This, fin de semana 21–22 de noviembre de 2026 e idea #0016 (17 de octubre de 2026). <a href="https://somebodybuildthis.dev/build-weekend/2026-w47">somebodybuildthis.dev/build-weekend/2026-w47</a> · <a href="https://somebodybuildthis.dev/ideas/16-a-tool-that-turns-council-meeting-minutes-into-a-traceable-h">Idea #0016</a> · Existentes: <a href="https://glama.ai/mcp/connectors/org.opencityrecord/opencity">OpenCityRecord MCP</a>, <a href="https://councilhound.net/councilhound-white-paper.pdf">CouncilHound</a>, <a href="https://civictally.com/products/civicmeeting">CivicMeeting</a></dd></div>
+  </dl>
+</article>
+
+<article class="idea" data-group="gap">
+  <div class="rank-row"><span class="rank">5</span><h3>Herramientas para usuarios avanzados de Hacker News y un tablero de empleos usable</h3></div>
+  <div class="badges"><span class="badge build">Construcción: fácil–media</span><span class="badge">11 personas lo pidieron</span></div>
+  <blockquote>«¿A alguien le interesaría una interfaz más amigable para el hilo de whoishiring?»</blockquote>
+  <p class="plain-need">Los habitués de Hacker News piden una y otra vez: modo oscuro, CSS propio, seguir usuarios, avisos de respuestas, colapsar comentarios repetitivos, filtrar publicaciones de baja calidad y una vista usable del hilo mensual «Who's Hiring».</p>
+  <dl>
+    <div><dt>Evidencia</dt><dd>11 personas distintas lo pidieron (conteo máximo, empatado) en el análisis de 4.400 publicaciones de HN. Corroboración: un tutorial de noviembre de 2026 sobre cómo extraer los hilos de Who's Hiring señala que leerlos es tedioso, el formato es libre y no hay filtros; el hilo de noviembre tuvo 229 comentarios.</dd></div>
+    <div><dt>Qué existe y por qué no alcanza</dt><dd>HN no va a construir esto; existen extensiones y clientes alternativos que cubren partes (modo oscuro, por ejemplo), pero no se verificó cada uno en detalle. Lo que el análisis plantea es que no hay un paquete pulido de extensión + tablero de Who's Hiring filtrable. La parte más concreta del hueco es ese tablero: filtrable y buscable (rol, remoto, salario, anunciante nuevo o repetido) desde la API pública de HN.</dd></div>
+    <div><dt>Cómo se construiría</dt><dd>Extensión de navegador (o cliente web alternativo) + un servicio chico que interpreta el hilo mensual de Who's Hiring vía la API pública de HN/Algolia y lo convierte en una tabla filtrable. Backend en Python, sin capital.</dd></div>
+    <div><dt>Quién pagaría</dt><dd>Débil: los usuarios de HN son conocidos por resistirse a pagar. La cita de US$9/mes del análisis («¿Consideraría HN eliminar los comentarios de relleno de los LLM si pago US$9/mes por ver solo publicaciones de personas reales?») corresponde a la idea separada del filtro anti-relleno (8 personas, 1 pagaría), no a esta. Esperá gratis + donaciones o freemium, como mucho.</dd></div>
+    <div><dt>Fuente</dt><dd class="src">DEV.to, hnidearadar, análisis de 4.400 publicaciones de HN (19 de agosto – 17 de noviembre de 2026), idea rankeada #3. <a href="https://dev.to/hnidearadar/i-had-ai-read-4400-hacker-news-posts-these-are-the-10-tools-people-most-want-built-15h4">dev.to/hnidearadar</a> · Tutorial: <a href="https://coderlegion.com/33620/how-scrape-hacker-news-with-python-who-hiring-threads-remote-and-salary-parsing-and-month">coderlegion.com</a></dd></div>
+  </dl>
+</article>
+
+<article class="idea" data-group="gap">
+  <div class="rank-row"><span class="rank">6</span><h3>Revisar y verificar código generado por IA en volumen</h3></div>
+  <div class="badges"><span class="badge build">Construcción: media–difícil</span><span class="badge">8 personas lo pidieron</span></div>
+  <blockquote>«¿Cómo lees, apruebas, verificas y gestionas el volumen de porquería generada?»</blockquote>
+  <p class="plain-need">Los equipos ahogados en código generado por IA preguntan cómo hace cualquiera para revisarlo, verificarlo y aprobarlo.</p>
+  <dl>
+    <div><dt>Evidencia</dt><dd>8 personas distintas lo pidieron en el análisis de Hacker News. Para esta idea no se dio conteo de quiénes pagarían.</dd></div>
+    <div><dt>Qué existe y por qué no alcanza</dt><dd>Las herramientas de revisión de código con IA avanzan rápido (bots de revisión de PR, explicadores de diffs, arneses de evaluación) y Claude Code / Codex ya traen funciones cercanas a la revisión. El ángulo que propone el análisis — agrupar los cambios de un agente por intención, explicar cada diff en lenguaje simple y marcar cambios de comportamiento sin tests antes de que un humano apruebe — es un producto de cola de aprobación más acotado, no un modelo nuevo. No se encontró una herramienta con nombre que haga exactamente esa cola de aprobación agrupada por intención, pero el espacio está lleno y se mueve cada semana: la diferencia sería difícil de sostener.</dd></div>
+    <div><dt>Cómo se construiría</dt><dd>Un tablero web que ingiere diffs de git o PRs, los agrupa por intención (con una llamada a un LLM o con heurísticas), resume cada diff en lenguaje simple, marca la cobertura de tests y ofrece una cola de aprobar/rechazar. Un equipo de dos puede hacer un MVP, pero la precisión y la confianza son el producto, y eso es lo difícil.</dd></div>
+    <div><dt>Quién pagaría</dt><dd>Equipos de ingeniería y líderes técnicos; la suscripción por equipo es el modelo natural, pero <span class="inferred">no hay precio ni cita de pago en la fuente</span>.</dd></div>
+    <div><dt>Fuente</dt><dd class="src">DEV.to, hnidearadar, análisis de 4.400 publicaciones de HN (19 de agosto – 17 de noviembre de 2026), idea rankeada #8. <a href="https://dev.to/hnidearadar/i-had-ai-read-4400-hacker-news-posts-these-are-the-10-tools-people-most-want-built-15h4">dev.to/hnidearadar</a></dd></div>
+  </dl>
+</article>
+
+<article class="idea" data-group="built">
+  <div class="rank-row"><span class="rank">7</span><h3>Control de despensa desde la foto del ticket de compra</h3></div>
+  <div class="badges"><span class="badge build">Construcción: fácil–media</span><span class="badge alert">Ojo: ya existe casi igual</span></div>
+  <p class="plain-need">La comida se vence porque nadie recuerda qué hay en la heladera ni cuándo caduca: sacarle una foto al ticket, obtener un inventario aproximado con fechas de vencimiento sugeridas y ver qué cocinar antes de que se eche a perder. La corrección manual importa más que el escaneo perfecto.</p>
+  <dl>
+    <div><dt>Evidencia</dt><dd>Idea destacada el 21–22 de noviembre de 2026 en Somebody Build This (idea #0004, @web-curator); pedido original del 17 de octubre de 2026, de un comprador de supermercado en r/SomebodyMakeThis. Un solo solicitante en el tablero, sin conteo de votos visible.</dd></div>
+    <div><dt>Qué existe — aviso</dt><dd><strong>NoWaste ya hace exactamente esto</strong>: escaneo por código de barras, foto o ticket, calendario y recordatorios de vencimiento, recetas desde el stock, en iPhone, Android y web, gratis, con Pro a US$9,99/año o US$44,99 de por vida; 67.000 instalaciones, actualizado el 18 de noviembre de 2026. Sus propias reseñas se quejan de que el escáner pierde ítems y pone el vencimiento en «hoy» por defecto. También existen KitchenPal, Pantry Check y Well Stockd. El único hueco que queda es una versión web más simple, solo local, sin cuenta y manual-primero, que acierte las fechas de vencimiento: una diferencia fina.</dd></div>
+    <div><dt>Cómo se construiría</dt><dd>App web pensada para el teléfono, OCR estándar, lista editable antes de guardar, una tablita propia de duraciones, lista de «usa esto primero» y todo en el dispositivo, sin cuenta. Opcional: recordar correcciones («ORG BNNA» → «Bananas»).</dd></div>
+    <div><dt>Quién pagaría</dt><dd>Hogares que quieren tirar menos comida. El precio de NoWaste (US$9,99/año, US$44,99 de por vida) muestra que el techo es bajo: solo freemium o pago único.</dd></div>
+    <div><dt>Fuente</dt><dd class="src">Somebody Build This, fin de semana 21–22 de noviembre de 2026 e idea #0004 (17 de octubre de 2026). <a href="https://somebodybuildthis.dev/build-weekend/2026-w47">somebodybuildthis.dev/build-weekend/2026-w47</a> · <a href="https://somebodybuildthis.dev/ideas/4-a-pantry-tracker-that-learns-what-you-bought-from-a-photo-of?from=collection">Idea #0004</a> · Ya existente: <a href="https://www.nowasteapp.com/home/">NoWaste</a></dd></div>
+  </dl>
+</article>
+
+<article class="idea" data-group="built">
+  <div class="rank-row"><span class="rank">8</span><h3>Bóveda de pruebas del inquilino: entrada y salida con fecha</h3></div>
+  <div class="badges"><span class="badge build">Construcción: fácil</span><span class="badge alert">Ojo: ya existe; solo falta Android/web</span></div>
+  <p class="plain-need">Las disputas por el depósito se definen por la prueba de cómo estaba el lugar: una lista guiada ambiente por ambiente que captura fotos y notas con fecha al entrar, los pedidos de reparación y la salida, y después un solo informe ordenado y exportable para la disputa. Solo evidencia, sin asesoría legal.</p>
+  <dl>
+    <div><dt>Evidencia</dt><dd>Idea destacada el 21–22 de noviembre de 2026 en Somebody Build This (idea #0008, @web-curator); pedido original del 17 de octubre de 2026, de un inquilino en r/SomebodyMakeThis. Un solo solicitante en el tablero.</dd></div>
+    <div><dt>Qué existe — aviso</dt><dd><strong>Depositt, versión 1.0 del 15 de octubre de 2026, hace exactamente esto</strong>: recorrido guiado ambiente por ambiente, fotos con fecha, hora y ubicación, comparación antes/después e informe PDF fechado; gratis para la entrada y Pro a US$7,99 pago único para el informe de salida, sin suscripción. También están Corbivo Renter (US$10/mes, PDF verificable con QR), Sealmark (fotos selladas con SHA-256 y GPS), Snapitory, DepositGenie y Rental Inspection App (US$29,99/año). El único hueco que queda es la plataforma: Depositt es solo para iOS 26 o superior — una versión Android/web y sin cuenta es la única apertura estrecha.</dd></div>
+    <div><dt>Cómo se construiría</dt><dd>App web pensada para el teléfono: captura con la cámara, lista por ambiente, tres etapas (entrada / reparaciones / salida), exportación a PDF o imprimible y fotos en el dispositivo. Debe decir claramente que es un registro, no asesoría legal, y que las fechas del reloj del teléfono no son prueba certificada.</dd></div>
+    <div><dt>Quién pagaría</dt><dd>Inquilinos, con un pago único de US$5–8 <span class="inferred">por analogía con los US$7,99 de Depositt, no por el solicitante</span>. No construyas una versión por suscripción de esto.</dd></div>
+    <div><dt>Fuente</dt><dd class="src">Somebody Build This, fin de semana 21–22 de noviembre de 2026 e idea #0008 (17 de octubre de 2026). <a href="https://somebodybuildthis.dev/build-weekend/2026-w47">somebodybuildthis.dev/build-weekend/2026-w47</a> · <a href="https://somebodybuildthis.dev/ideas/8-a-renter-s-vault-for-timestamped-move-in-and-move-out-eviden?from=collection">Idea #0008</a> · Ya existentes: <a href="https://kynossstudios.com/depositt/">Depositt</a>, <a href="https://www.corbivo.com/for/renters">Corbivo</a>, <a href="https://getsealmark.com/">Sealmark</a></dd></div>
+  </dl>
+</article>
+
+</main>
+
+<section class="plain" aria-labelledby="descartadas">
+  <h2 id="descartadas">Señales revisadas y descartadas</h2>
+  <p>También aparecieron en esos días, pero no vale construirlas tal como están planteadas:</p>
+  <ul>
+    <li><strong>«¿Qué hay de nuevo esta semana en todos mis servicios de streaming?»</strong> (HN: 7 personas, 6 pagarían, agosto–17 de noviembre) — ya está resuelto: JustWatch (más de 100 servicios, US$2,49/mes sin anuncios) y Reelgood (140 servicios, gratis) hacen exactamente eso. <a href="https://www.tasteray.com/review/best-movie-apps-with-streaming-info">tasteray.com</a></li>
+    <li><strong>Chequeador de lanzamientos nuevos para tu propia colección de música</strong> (Somebody Build This #0042, 24 de octubre de 2026, fediverso) — Lidarr (gratis, código abierto, con MusicBrainz y calendario) ya sigue artistas y lanzamientos; el hueco es solo un chequeador simple a pedido, sin descargas ni autoalojamiento. <a href="https://lidarr.audio">lidarr.audio</a></li>
+    <li><strong>Escáner de preparación para agentes</strong> (llms.txt / mcp.json / x402.json) — el escaneo del 22 de noviembre de 2026 dio Vercel 74, Supabase 79 y Cloudflare 84: Vercel y Supabase no tienen mcp.json ni x402.json, y a Cloudflare le faltan x402.json y api-catalog; pero los escáneres ya existen (Agent Ready, la API de 18 chequeos de StartupHub, Glama MCP y el escáner gratuito del propio autor). La necesidad sin cubrir son los archivos que faltan en los sitios, no otro escáner. <a href="https://aiwithghost.com/news/news-i-scanned-4-developer-platform-homepages-for-ai-agent-readiness-llmstxt-mcp-x402/">aiwithghost.com</a></li>
+    <li><strong>Orquestar muchos agentes de IA en paralelo</strong> (HN: 9 personas) — Claude Code ya trae Agent View / Agent Teams, y existen Agent Deck y Agent-of-Empires (terminal + tablero web, sandbox con Docker): lleno y difícil de superar para un equipo de dos. <a href="https://code.claude.com/docs/en/agents?ref=cms.llms.blog">code.claude.com</a> · <a href="https://github.com/SYU8384/agent-of-empires">Agent-of-Empires en GitHub</a></li>
+    <li><strong>IA privada con retención cero de datos</strong> (HN: 7 personas, 4 pagarían 2–3 veces más, ~US$20/mes extra) — necesita alojar modelos con GPU y auditorías; no es construible como web sin capital por dos personas.</li>
+    <li><strong>Vista de día de calendario «apretada»</strong> (#0114, 16 de noviembre de 2026) — ya la lanzó el propio responsable de Somebody Build This el 23 de noviembre de 2026 («Squeezed Day», squeeze-day.vercel.app). No reconstruir.</li>
+    <li><strong>El análisis de 9.300 publicaciones de Reddit</strong> («Analicé más de 9.300 publicaciones de “ojalá hubiera una app”») — volvió a circular el 21–23 de noviembre en ProductList y r/SaaS, pero el dataset es de enero de 2026: 9.363 publicaciones; productividad 1.231 pedidos; educación 698; negocios 696; salud 656; «sin conexión primero» más de 640 (7%); y finanzas como el nicho de ingresos más fuerte, con 193 señales de pago. Sirve como contexto, no como demanda fresca de noviembre. <a href="https://productlist.info/requests">productlist.info/requests</a></li>
+  </ul>
+</section>
+
+<section class="plain" aria-labelledby="noverificado">
+  <h2 id="noverificado">Lo que no se pudo verificar</h2>
+  <ul>
+    <li><strong>Reddit, directo:</strong> el navegador en vivo fue bloqueado por la seguridad de red de Reddit y el buscador bloquea reddit.com por política. Ningún título, usuario, voto ni fecha exacta de publicación de Reddit fue verificado de primera mano. No cites votos de Reddit para ninguna idea: no hay ninguno verificado.</li>
+    <li><strong>X/Twitter:</strong> la búsqueda casi no devolvió pedidos con fecha utilizables. Único ítem concreto: @0xTeddet, 5 de noviembre de 2026 — «Grok Bot leyó 10.000 publicaciones de “ojalá hubiera una app”… descartó 9.997… quedaron 3. Este fin de semana construyo la #1» — pero las 3 sobrevivientes no estaban detalladas en el fragmento legible. <a href="https://usage.incidental.site/cases/x-0xteddet-2118335473969987889.html">usage.incidental.site</a></li>
+    <li><strong>Product Hunt y GitHub:</strong> no se encontró, en el tiempo disponible, ninguna discusión fechada el 21–23 de noviembre con una necesidad concreta sin cubrir; lo hallado en GitHub eran pedidos de funciones dentro de productos existentes (por ejemplo, OpenCode #63404, 11 de noviembre de 2026), no herramientas construibles por separado.</li>
+    <li><strong>Fechas originales de los hilos de turnos</strong> de ProductList (22–23 de noviembre, r/answers): no verificadas; solo las fechas de listado.</li>
+    <li><strong>Precios de las ideas 1, 2, 4, 5 y 6:</strong> no están evidenciados en las fuentes; donde aparece un precio en esta página, está marcado como inferido o por analogía.</li>
+    <li><strong>El hilo viejo de HN</strong> «¿Qué biblioteca o herramienta chica quieres que no existe?» (ítem 31217300) es de la época 2022: quedó excluido aunque apareció en la búsqueda.</li>
+  </ul>
+</section>
+
+<section class="plain" aria-labelledby="fuentes">
+  <h2 id="fuentes">Fuentes</h2>
+  <ul class="sources">
+    <li>Somebody Build This — fin de semana de construcción 21–22 de noviembre de 2026 — <a href="https://somebodybuildthis.dev/build-weekend/2026-w47">somebodybuildthis.dev/build-weekend/2026-w47</a></li>
+    <li>ProductList Daily — What People Want, demanda de Reddit, 21–23 de noviembre de 2026 — <a href="https://productlist.info/requests">productlist.info/requests</a></li>
+    <li>DEV.to / hnidearadar — «I had AI read 4,400 Hacker News posts…» — <a href="https://dev.to/hnidearadar/i-had-ai-read-4400-hacker-news-posts-these-are-the-10-tools-people-most-want-built-15h4">dev.to/hnidearadar</a></li>
+    <li>AIWithGhost / manhourplan — escaneo de preparación para agentes, 22 de noviembre de 2026 — <a href="https://aiwithghost.com/news/news-i-scanned-4-developer-platform-homepages-for-ai-agent-readiness-llmstxt-mcp-x402/">aiwithghost.com</a> · espejo: <a href="https://clawdbytes.pages.dev/article/2026-11-22-i-scanned-4-developer-platform-homepages-for-ai-agent-readiness-llmstxt-mcp-x402">clawdbytes.pages.dev</a></li>
+    <li>Vanja — Zero Trust for AI Agents — <a href="https://vanja.io/zero-trust-ai-agents/">vanja.io</a> · AidToolStack — <a href="https://aidtoolstack.com/blog/running-ai-coding-agents-safely">aidtoolstack.com</a> · Nirmata — <a href="https://nirmata.com/2026/10/30/ai-coding-agent-security-risks-and-controls/">nirmata.com</a></li>
+    <li>agentperm (PyPI) — <a href="https://pypi.org/project/agentperm/0.3.0/">pypi.org/project/agentperm</a> · Anaroq — <a href="https://www.anaroq.com/agents/permissions-generator">anaroq.com</a> · Cellendar — <a href="https://greatwork.company/apps/cellendar">greatwork.company</a></li>
+    <li>NoWaste — <a href="https://www.nowasteapp.com/home/">nowasteapp.com</a> · Depositt — <a href="https://kynossstudios.com/depositt/">kynossstudios.com/depositt</a> · Corbivo — <a href="https://www.corbivo.com/for/renters">corbivo.com</a> · Sealmark — <a href="https://getsealmark.com/">getsealmark.com</a></li>
+    <li>OpenCityRecord MCP — <a href="https://glama.ai/mcp/connectors/org.opencityrecord/opencity">glama.ai</a> · CouncilHound — <a href="https://councilhound.net/councilhound-white-paper.pdf">councilhound.net</a> · CivicMeeting — <a href="https://civictally.com/products/civicmeeting">civictally.com</a></li>
+    <li>Comparación JustWatch / Reelgood — <a href="https://www.tasteray.com/review/best-movie-apps-with-streaming-info">tasteray.com</a> · Agentes en paralelo de Claude Code — <a href="https://code.claude.com/docs/en/agents?ref=cms.llms.blog">code.claude.com</a> · Tutorial Who's Hiring — <a href="https://coderlegion.com/33620/how-scrape-hacker-news-with-python-who-hiring-threads-remote-and-salary-parsing-and-month">coderlegion.com</a></li>
+  </ul>
+</section>
+
+<footer>
+  <p>Investigación realizada el 24 de noviembre de 2026 (01:15 UTC) sobre fuentes fechadas principalmente entre el 21 y el 23 de noviembre de 2026, con pedidos originales más viejos donde así se indica. Los precios marcados como inferidos no provienen de las fuentes.</p>
+</footer>
+
+</div>
+<script>
+(function(){
+  var buttons = document.querySelectorAll('.filters button');
+  var cards = document.querySelectorAll('article.idea');
+  var countLine = document.getElementById('countLine');
+  var labels = {
+    all: 'Mostrando las 8 ideas.',
+    bet: 'Mostrando las 3 mejores apuestas (ideas 1 a 3).',
+    gap: 'Mostrando las ideas 4 a 6: hueco real, pagador débil o competencia fuerte.',
+    built: 'Mostrando las ideas 7 y 8: ya fueron construidas por otros.'
+  };
+  function apply(filter){
+    var shown = 0;
+    cards.forEach(function(card){
+      var match = filter === 'all' || card.getAttribute('data-group') === filter;
+      card.classList.toggle('hidden', !match);
+      if (match) shown++;
+    });
+    buttons.forEach(function(b){
+      b.setAttribute('aria-pressed', b.getAttribute('data-filter') === filter ? 'true' : 'false');
+    });
+    countLine.textContent = labels[filter] || ('Mostrando ' + shown + ' ideas.');
+  }
+  buttons.forEach(function(b){
+    b.addEventListener('click', function(){ apply(b.getAttribute('data-filter')); });
+  });
+})();
+</script>
+</body>
+</html>
